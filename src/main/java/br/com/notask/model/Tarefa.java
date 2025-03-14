@@ -2,7 +2,11 @@ package br.com.notask.model;
 
 import java.time.LocalDate;
 
+import br.com.notask.utils.Prioridade;
+import br.com.notask.utils.Tag;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,8 +23,13 @@ public class Tarefa {
 	private Long id;
 	private String nome;
 	private LocalDate dataPrazo;
-	private String tag;
-	private String urgencia;
+	
+	@Enumerated(EnumType.STRING)
+	private Tag tag;
+	
+	@Enumerated(EnumType.STRING) 
+    private Prioridade prioridade;
+	
 	private String descricao;
 	
 	@ManyToOne
