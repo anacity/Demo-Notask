@@ -94,7 +94,6 @@ public class UsuarioController {
 				u.setEmail(u.getEmail());
 				u.setUsername(u.getUsername());
 				u.setSenha(u.getSenha());
-				u.setTarefas(u.getTarefas());
 				
 				userRep.save(u);
 				

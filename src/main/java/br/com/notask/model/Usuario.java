@@ -28,8 +28,5 @@ public class Usuario {
 	private String email;
 	
 	private String senha;
-	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-	private List<Tarefa> tarefas;
 
 }
