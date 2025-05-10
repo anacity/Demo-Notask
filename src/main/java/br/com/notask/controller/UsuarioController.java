@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.notask.auth.AuthenticateUserCase;
 import br.com.notask.model.Usuario;
-import br.com.notask.model.dto.LoginDTO;
 import br.com.notask.repository.UsuarioRepository;
 import br.com.notask.util.HashUtil;
 
@@ -46,6 +46,24 @@ public class UsuarioController {
 		}
 	}
 	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> buscarUsuarios(@PathVariable("id") Long id){
+		try {
+	        Optional<Usuario> usuario = userRep.findById(id);
+	        
+	        if (usuario.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body("Nenhum usuário encontrado com o ID: " + id);
+	        } 
+	        
+	        return ResponseEntity.ok(usuario.get());
+	        
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+	                .body("Ocorreu um erro interno no servidor: " + e.getMessage());
+	    }
+	}
+	
 	@PostMapping("/")
 	public ResponseEntity<?> criarUsuario(@RequestBody Usuario usuario){
 		try {
@@ -61,8 +79,17 @@ public class UsuarioController {
 				return emailValidation;
 			}
 			
-			String senhaHash = HashUtil.hash(usuario.getSenha());
-			usuario.setSenha(senhaHash);
+			
+			System.out.println(usuario.getSenha());
+			
+			// if hashNovo !== antigo 
+			// senhaNova
+			
+			// String senhaHash = HashUtil.hash(usuario.getSenha());
+			
+			
+			
+			// usuario.setSenhaComHash(senhaHash);
 			
 			Usuario newU = userRep.save(usuario);
 			
@@ -122,21 +149,27 @@ public class UsuarioController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO) {
+	public ResponseEntity<?> login(@RequestBody Usuario usuario) {
 	    try {
 	        // Gera o hash da senha recebida (igual ao cadastro)
-	        String senhaHash = HashUtil.hash(loginDTO.getSenha());
+	    	
+	    	System.out.println(usuario.getEmail() + " === " + usuario.getSenha());
+	    	
+	    	 // String senhaHash = HashUtil.hash(usuario.getSenha());
+	       
 	        
 	        // Busca no banco com email e hash da senha
-	        Usuario u = userRep.findByEmailAndSenha(loginDTO.getEmail(), senhaHash);
-	        
-	        if (u == null) {
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-	                    .body("Email ou senha incorretos");
-	        } else {
-	            return ResponseEntity.ok("Login realizado com sucesso.");
-	        }
+//	        Usuario u = userRep.findByEmailAndSenha(usuario.getEmail(), senhaHash);
+	    	
+	    	AuthenticateUserCase auth = new AuthenticateUserCase(userRep);
+			
+			String token = auth.execute(usuario.getEmail(), usuario.getSenha());
+	       
+			return ResponseEntity.ok("Login realizado com sucesso.");
 	    } catch (Exception e) {
+	    	System.out.println(e);
+	    	System.out.println(usuario.getEmail());
+	    	System.out.println(usuario.getSenha());
 	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 	                .body("Ocorreu um erro ao realizar login");
 	    }
