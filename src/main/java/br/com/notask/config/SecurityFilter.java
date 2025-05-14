@@ -29,7 +29,7 @@ public class SecurityFilter extends OncePerRequestFilter{
 		
 		// rotas privadas (com auenticacao)
 		private static final List<String> AUTH_LIST_STARTS_WITH = List.of(
-			"/tarefas/"
+			"/tarefas/**"
 		);
 		
 	

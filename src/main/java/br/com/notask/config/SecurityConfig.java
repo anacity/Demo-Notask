@@ -35,6 +35,7 @@ public class SecurityConfig {
 					// outras rotas, deve estar autenticado
 					authorizeRequests.anyRequest().authenticated();
 			});
+		
 		// retorna a requisição quando sessão desabilitada
 		return http.build();
 	}

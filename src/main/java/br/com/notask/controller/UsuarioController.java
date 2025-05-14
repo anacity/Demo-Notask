@@ -69,9 +69,9 @@ public class UsuarioController {
 		try {
 			
 			
-			if (usuario.getNome() == null || usuario.getNome().isEmpty()) {
+			if (usuario.getNome() == null || usuario.getNome().isEmpty() || usuario.getEmail() == null || usuario.getEmail().isEmpty() || usuario.getUsername() == null || usuario.getUsername().isEmpty() || usuario.getSenha() == null || usuario.getSenha().isEmpty()) {
 				return ResponseEntity.badRequest()
-						.body("O nome do usuário não pode ser vazio");
+						.body("Preencha todos os campos para se registrar");
 			}
 			
 			ResponseEntity<String> emailValidation = verificarEmail(usuario);
@@ -165,7 +165,7 @@ public class UsuarioController {
 			
 			String token = auth.execute(usuario.getEmail(), usuario.getSenha());
 	       
-			return ResponseEntity.ok("Login realizado com sucesso.");
+			return ResponseEntity.status(HttpStatus.OK).body(token);
 	    } catch (Exception e) {
 	    	System.out.println(e);
 	    	System.out.println(usuario.getEmail());

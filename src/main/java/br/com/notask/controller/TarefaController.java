@@ -55,6 +55,7 @@ public class TarefaController {
 			
 			return ResponseEntity.ok(newT);
 		} catch (Exception e) {
+			System.out.println(e);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Ocorreu um erro interno no servidor.");
 		}

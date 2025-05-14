@@ -16,7 +16,7 @@ public class JWTProvider {
 	
 	public DecodedJWT validateToken(String token) {
 		
-		token = token.replace("Bearer", "");
+		token = token.replace("Bearer ", "");
 		Algorithm algorithm = Algorithm.HMAC256(secretkey);
 		
 		try {
