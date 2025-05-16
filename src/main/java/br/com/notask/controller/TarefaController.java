@@ -21,7 +21,6 @@ import br.com.notask.model.Usuario;
 import br.com.notask.repository.TarefaRepository;
 import br.com.notask.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 
 @RestController
 @CrossOrigin
@@ -116,7 +115,6 @@ public class TarefaController {
 		}
 	}
 	
-	@Transactional
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deletarTarefa(@PathVariable("id") Long id, HttpServletRequest request) {
 		
