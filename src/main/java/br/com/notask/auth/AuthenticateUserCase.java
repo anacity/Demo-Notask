@@ -12,7 +12,7 @@ import br.com.notask.repository.UsuarioRepository;
 public class AuthenticateUserCase {
 	
 	private final UsuarioRepository repUser;
-	private final String secretKey = "helloworld";
+	private final String secretKey = "olateste";
 	private final long expiration = 86400000;
 	
 	public AuthenticateUserCase(UsuarioRepository repUser) {
@@ -27,9 +27,6 @@ public class AuthenticateUserCase {
 		System.out.println("user encontrado");
 		System.out.println(user);
 		
-		Usuario teste = repUser.findBySenha(senha);
-		
-		System.out.println(teste);
 		
 		if(user == null || user.isEmpty()) {
 			throw new RuntimeException("Email ou Senha Inconrreto");
